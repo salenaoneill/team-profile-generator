@@ -37,7 +37,6 @@ const addManager = () => {
         const {name, id, email, officeNumber} = managerInfo;
         const manager = new Manager (name, id, email, officeNumber);
         teamMembers.push(manager);
-        addEmployee();
     })
 };
 
@@ -46,7 +45,7 @@ const addManager = () => {
 const addEmployee = () => {
     return inquirer.prompt ([
         {
-            type: 'checkbox',
+            type: 'list',
             name: 'role',
             message: 'choose an employee type',
             choices: ['Add intern', 'Add engineer']
@@ -77,19 +76,18 @@ const addEmployee = () => {
             message: 'enter employee school'
         },
         {
-            type: 'checkbox',
-            name: 'addEmployee',
-            message: 'select an option',
-            choices: ['add team member', 'finish building team']
+            type: 'confirm',
+            name: 'addMember',
+            message: 'would you like to add another team member?',
         }
 //save employee info add it to team member array
     ]).then(employeeInfo => {
-        const {name, id, email, role, github, school, addEmployee} = employeeInfo;
-
-        if (role === "Engineer") {
+        let {name, id, email, role, github, school, addMember} = employeeInfo;
+        let employee;
+        if (role === "Add engineer") {
             employee = new Engineer (name, id, email, github);
         }
-        else if (role === "Intern") {
+        else if (role === "Add intern") {
             employee = new Intern (name, id, email, school);
         }
         
@@ -97,9 +95,9 @@ const addEmployee = () => {
 
 //call addEmployee function if user wishes to add another employee
 //if they do not, return team member array.
-        if (addEmployee === "add team member") {
+        if (addMember) {
             return addEmployee(teamMembers);
-        }
+        } 
         else {
             return teamMembers;
         }
@@ -110,7 +108,7 @@ const addEmployee = () => {
 //if error, console log the error. if not, profile has been generated.
 const writeFile = data => {
     fs.writeFile('./dist/index.html', data, null, (err) => {
-       err ? console.error(err) : console.log("Your team profile has been generated.")
+       err ? console.error(err) : console.log("Your team profile has been generated.");
     })
 };
 
@@ -125,4 +123,4 @@ addManager()
     })
     .then(indexHTML => {
         return writeFile(indexHTML);
-    })
+    });
