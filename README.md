@@ -4,9 +4,7 @@
 
 I built this project in order to create an application that allows a manager to generate a webpage that displays their team info so they can quickly access there emails and Github profiles. I learned a lot about running tests with with jest and using contructors.
 
-## Table of Contents (Optional)
-
-If your README is long, add a table of contents to make it easy for users to find what they need.
+## Table of Contents
 
 - [Installation](#installation)
 - [Usage](#usage)
